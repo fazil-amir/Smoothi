@@ -17,8 +17,9 @@ var Smoothie = (function(public){
 	====================================================================================================================== */
 	
 	this.public			= {
-		smoothieContainer: $('#smoothie'),
-		slideSpeed: 500
+		smoothieContainer: 		$('#smoothie'),
+		smoothieCurrent:        'currentSlide',
+		slideSpeed: 			500
 	};
 
 	
@@ -32,7 +33,7 @@ var Smoothie = (function(public){
 		slides: 				[],
 		smoothiePlaceholder: 	'smoothie____Placeholder',
 		smoothieSlide:          'smoothie____Slide',
-		smoothieSlideWrapper: 	'smoothie____Slide____wrapper',
+		smoothieSlideWrapper: 	'smoothie____Slide____wrapper',		
 		timer: 					''
 	};	
 	
@@ -81,7 +82,7 @@ var Smoothie = (function(public){
 	
 	====================================================================================================================== */
 	
-	this.createElement = function(attr = {elementType:'', elementClass:'', elementID:'', elementData:'', elementHTML:'', elementInline: ''}) {
+	this.createElement = function(attr = {elementType:'', elementClass:'', elementID:'', elementHTML:'', elementInline: ''}) {
 
 		try{
 			if(attr.elementType == ''){
@@ -131,6 +132,8 @@ var Smoothie = (function(public){
 		for(var i = 0; i < slideLen; i++) {
 			
 			link  	= '';
+			
+			/* Prepare link for current slide item only if user has passed btnCaption */
 
 			if(that.vars.slides[i].btnCaption !== ''){
 
@@ -142,37 +145,55 @@ var Smoothie = (function(public){
 
 			$('.' + that.vars.smoothiePlaceholder)
 			.append(
+				
+				/* Creating slide item  */
+
 				that.createElement({
 					elementType: 'div',
 					elementClass: that.vars.smoothieSlide
 				})
+
+				/* Append wrapper div inside slide item div */
 				.append(
+
+					/* Creating wrapper div */
+
 					that.createElement({
 						elementType: 'div',
 						elementClass: that.vars.smoothieSlideWrapper
-					})					
+					})
+					
+					/* Add headline inside wrapper */
+
 					.append(
 						that.createElement({
 							elementType: 'h1',
 							elementHTML: '<span>' + that.vars.slides[i].headline + '</span>'
 						})						
 					)
+					
+					/* Add paragraph inside wrapper */
 					.append(						
 						that.createElement({
 							elementType: 'p',
 							elementHTML: '<span>' + that.vars.slides[i].paragraph + '</span>'
 						})
 					)
+
+					/* Add link inside wrapper */
+
 					.append(
 						link
 					)
-				)
-			);
+
+				) /* End of wrapper */
+
+			) /* End of slide item */;
 
 		}
 
 		/* -----------------------
-			Since we are using table layouting, so the slide wrapper needs to have a fixed width
+			Since we are using table layouting, so the slide wrapper needs to have a fixed width.
 		--------------------------------------------------------------------------------------------------- */
 		
 		var dynamicWidth;
@@ -183,10 +204,7 @@ var Smoothie = (function(public){
 			$('.' + that.vars.smoothieSlideWrapper).width(dynamicWidth);
 
 		});
-		
-		$('.' + that.vars.smoothiePlaceholder).css({
-			backgroundImage: "url('" + that.vars.slides[0].imgSrc + "')"
-		})
+
 
 	}
 	
@@ -201,7 +219,11 @@ var Smoothie = (function(public){
 		
 		var index 		= 0;
 
+		/* Show first slide until timer is triggers next slide*/
+		
 		that.changeSlide(index);
+
+		/* Start timer */
 
 		that.vars.timer = setInterval(function(){
 				
@@ -209,7 +231,7 @@ var Smoothie = (function(public){
 				index = 0;
 			}
 
-		that.changeSlide(index++);	
+			that.changeSlide(index++);	
 
 		}, that.public.slideSpeed);
 
@@ -224,15 +246,18 @@ var Smoothie = (function(public){
 	
 	this.changeSlide = function(index) {
 
+		/* Change the placeholder's backgroung image*/
+		
 		$('.' + that.vars.smoothiePlaceholder).css({
 			backgroundImage: "url('" + that.vars.slides[index].imgSrc + "')"
 		})
 
-		$('.' + that.vars.smoothieSlide)
-			.removeClass('current')
-			.eq(index).addClass('current')
+		/* Now add current class to new slide which has to be shown and remove current class from any previouly showing slide */
 
-		//$('.' + that.vars.smoothieSlide).eq(index).addClass('current');
+		$('.' + that.vars.smoothieSlide)
+			.removeClass(that.public.smoothieCurrent)
+			.eq(index)
+			.addClass(that.public.smoothieCurrent)
 
 	}
 	
@@ -240,64 +265,59 @@ var Smoothie = (function(public){
 
 	/* ========================
 	
-		Public Scope
+		Init / Constructor
 	
 	====================================================================================================================== */
 
-	return {
+	this.init = (function(public){
 		
-		init: function(public){
-			
-			var returned;
 
-			/* -----------------------
-				Megre new settings
-			--------------------------------------------------------------------------------------------------- */
-			
-			$.extend(that.public, public);
+		/* -----------------------
+			Megre new settings
+		--------------------------------------------------------------------------------------------------- */
+		
+		$.extend(that.public, public);
 
 
-			/* -----------------------
-				Fetch slide data from html element
-			--------------------------------------------------------------------------------------------------- */
-			
-			that.fetchSlideData();
+		/* -----------------------
+			Fetch slide data from html element
+		--------------------------------------------------------------------------------------------------- */
+		
+		that.fetchSlideData();
 
 
-			/* -----------------------
-				Create slider placeholder element.
-			--------------------------------------------------------------------------------------------------- */
-			
-			that.public.smoothieContainer.append(
-				that.createElement({
-					elementType: 'div',
-					elementClass: that.vars.smoothiePlaceholder
-				})
-			);
+		/* -----------------------
+			Create slider placeholder element.
+		--------------------------------------------------------------------------------------------------- */
+		
+		that.public.smoothieContainer.append(
+			that.createElement({
+				elementType: 'div',
+				elementClass: that.vars.smoothiePlaceholder
+			})
+		);
 
 
-			/* -----------------------
-				Prepare Slides for adding slide contents and render it on dom
-			--------------------------------------------------------------------------------------------------- */
-			
-			that.renderSlides();
+		/* -----------------------
+			Prepare Slides for adding slide contents and render it on dom
+		--------------------------------------------------------------------------------------------------- */
+		
+		that.renderSlides();
 
-			that.changeSlide(0)
+		
+		/* -----------------------
+			Start the timer to invoke slide rotation
+		--------------------------------------------------------------------------------------------------- */
+		
+		that.invokeTimer();
 
-			/* -----------------------
-				Start the timer to invoke slide rotation
-			--------------------------------------------------------------------------------------------------- */
-			
-			that.invokeTimer();
 
-		} /* End of Init */
 
-	}; /* End or public scope - return*/
+	})(public);
 
 });
 
 
-var s = new Smoothie();
-s.init({
+var s = new Smoothie({
 	slideSpeed: 5000
-})
+});

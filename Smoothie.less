@@ -1,27 +1,66 @@
-@import url('https://fonts.googleapis.com/css?family=Gudea|Hammersmith+One');
+/* ========================
 
-body{
-	padding: 0;
-	margin: 0;
+	YOUR CUSTOM DEFINATION
+
+====================================================================================================================== */
+
+/* -----------------------
+	Default height and width
+--------------------------------------------------------------------------------------------------- */
+
+#smoothie {			
+	width: 100%;
+	height: 100vh;	
 }
 
-@colorPrimary : fade(#FFC107, 70%);
+/* -----------------------
+	Content wrapper div's max width
+--------------------------------------------------------------------------------------------------- */
+
+.currentSlide{
+	max-width: 1200px;
+}
+
+/* -----------------------
+	Media queries
+--------------------------------------------------------------------------------------------------- */
+
+@media(max-width:1024px){#smoothie {
+	// width: 100%;
+	height: 75vh;
+}}
+@media(max-width:768px){#smoothie {
+	// width: 100%;
+	height: 380px;
+}}
+@media(max-width:580px){#smoothie {
+	height: 280px;
+}}
+
+
+
+
+
+
+/* ========================
+
+	DO NOT CHANGE FROM HERE
+
+====================================================================================================================== */
+
+@import url('https://fonts.googleapis.com/css?family=Gudea|Hammersmith+One');
+
+@colorPrimary : fade(#9e9e9e, 90%);
 
 #smoothie {	
-	height: 600px;
-	width: 1020px;
 	margin: auto;
-	transition: all 0.5s;
+	transition: all 0.2s;
 	overflow: hidden;	
 
 	ul{
 		display: none;
 	}
-	h1, h2, p{
-		// margin: 0;
-		// padding: 0;
-		// line-height: normal;
-	}
+
 	h1, h2, p, a{
 		z-index: 1;
 		position: relative;
@@ -30,14 +69,16 @@ body{
 
 	h1{	
 		font-size: 60px;
-		font-weight: 400;
-		padding-bottom: 2px;
+		font-weight: 400;		
 		left: -1000px;
 		opacity: 0.8;
 		transition: all 0.5s ease-in-out 0.3s;
 		margin-top: 0; 
+		color: #fff;
+		text-shadow: 0px 0px 5px rgba(63, 92, 105, 0.53);
 
 		span{
+			padding-top: 10px;
 			display: inline;
 			background: @colorPrimary;
 			box-shadow: 10px 0 0 @colorPrimary, -10px 0 0 @colorPrimary;
@@ -51,12 +92,14 @@ body{
 		opacity: 0.8;
 		transition: all 0.5s ease-in-out 0.5s; 
 		font-family: 'Gudea', sans-serif;
-		
+		line-height: 37px;
+		color: #fff;
+
 		span{
 			display: inline;
 			background: @colorPrimary;
 			box-shadow: 10px 0 0 @colorPrimary, -10px 0 0 @colorPrimary;
-			padding-top: 5px 0;
+			padding: 5px 0;
 		}
 
 	}
@@ -94,8 +137,10 @@ body{
 			padding: 0 50px;
 			box-sizing: border-box;
 			opacity: 0;
+			margin:auto;
+			max-width: 1020px;
 
-			&.current{
+			&.currentSlide{
 				opacity: 1;
 				h1{
 					left: 0;
@@ -113,7 +158,7 @@ body{
 			
 					&:hover {
 						box-shadow: 0px 0px 9px 2px rgba(255, 255, 255, 0.37);
-    					border-color: rgb(255, 193, 30);			
+    					border-color: #607d8b;			
 					}
 				}
 			}
@@ -131,12 +176,10 @@ body{
 	}
 }
 
-@media(max-width:1024px){
-	#smoothie {
-		width: 96%;
-		height: 75vh;
-	}
-}
+
+
+
+
 
 @media(max-width:768px){
 	#smoothie {
@@ -167,7 +210,6 @@ body{
 		}
 	}
 }
-
 
 @media(max-width:580px){
 	#smoothie {
