@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css?family=Gudea|Hammersmith+One');
+
+body{
+	padding: 0;
+	margin: 0;
+}
+
+@colorPrimary : fade(#FFC107, 70%);
+
+#smoothie {	
+	height: 600px;
+	width: 1020px;
+	margin: auto;
+	transition: all 0.5s;
+	overflow: hidden;	
+
+	ul{
+		display: none;
+	}
+	h1, h2, p{
+		// margin: 0;
+		// padding: 0;
+		// line-height: normal;
+	}
+	h1, h2, p, a{
+		z-index: 1;
+		position: relative;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+
+	h1{	
+		font-size: 60px;
+		font-weight: 400;
+		padding-bottom: 2px;
+		left: -1000px;
+		opacity: 0.8;
+		transition: all 0.5s ease-in-out 0.3s;
+		margin-top: 0; 
+
+		span{
+			display: inline;
+			background: @colorPrimary;
+			box-shadow: 10px 0 0 @colorPrimary, -10px 0 0 @colorPrimary;
+		}
+	}
+
+	p{
+		font-weight: 100;
+		bottom: -1000px;
+		font-size: 22px;
+		opacity: 0.8;
+		transition: all 0.5s ease-in-out 0.5s; 
+		font-family: 'Gudea', sans-serif;
+		
+		span{
+			display: inline;
+			background: @colorPrimary;
+			box-shadow: 10px 0 0 @colorPrimary, -10px 0 0 @colorPrimary;
+			padding-top: 5px 0;
+		}
+
+	}
+
+	a{
+		font-family: 'Gudea', sans-serif;
+		font-size: 14px;
+		transition: all 0.5s ease-in-out 0s; 
+		display: inline-block;
+		background-color: #fff;
+		padding: 13px 0;
+		min-width: 140px;
+		text-align: center;
+		color: fadein(@colorPrimary, 30%);
+		border:2px solid @colorPrimary;
+	}
+
+	.smoothie____Placeholder {
+		height: inherit;
+		width: 100%;
+		position: relative;
+		background-color: gray;
+		overflow: hidden;
+		background-position: center center;
+		background-size: cover;
+		transition: background 1s ease-in-out 0.5s;
+
+		.smoothie____Slide{
+			height: inherit;
+			width: 100%;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			padding: 0 50px;
+			box-sizing: border-box;
+			opacity: 0;
+
+			&.current{
+				opacity: 1;
+				h1{
+					left: 0;
+					opacity: 1;
+				}
+				p {
+					bottom: 0;
+					opacity: 1;
+				}
+				a{
+					-ms-transform: scale(1.2);
+					-webkit-transform: scale(1.2);
+					left: 5px;
+					text-decoration: none;
+			
+					&:hover {
+						box-shadow: 0px 0px 9px 2px rgba(255, 255, 255, 0.37);
+    					border-color: rgb(255, 193, 30);			
+					}
+				}
+			}
+
+			.smoothie____Slide____wrapper{
+				height: inherit;
+				width: inherit;
+				display: table-cell;
+				vertical-align: middle;
+				position: relative;			
+			}
+
+			
+		}
+	}
+}
+
+@media(max-width:1024px){
+	#smoothie {
+		width: 96%;
+		height: 75vh;
+	}
+}
+
+@media(max-width:768px){
+	#smoothie {
+		width: 100%;
+		height: 380px;
+		
+		h1{
+			font-size: 40px;
+		}
+		p{
+			font-size: 18px;
+		}
+
+		a{
+			font-size: 18px;
+		}
+
+		.smoothie____Placeholder {
+			.smoothie____Slide{
+				&.current{
+					a{
+						-ms-transform: scale(1);
+						-webkit-transform: scale(1);
+						left: -8px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@media(max-width:580px){
+	#smoothie {
+		height: 280px;
+		
+		h1{
+			font-size: 34px;
+			text-align: center;
+		}
+		p{
+			font-size: 16px;
+			text-align: center;
+		}
+
+		a{
+			font-size: 16px;
+			display: block;
+			margin: auto;
+			min-width: 80%;
+			width: 80%;
+			padding: 7px;
+			border: 1px solid;
+			margin-top: 10px;
+		}
+
+		.smoothie____Placeholder {
+			.smoothie____Slide{
+				&.current{
+					a{
+						-ms-transform: scale(1);
+						-webkit-transform: scale(1);
+						left: -8px;
+					}
+				}
+			}
+		}
+	}
+}
