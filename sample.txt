@@ -1,6 +1,0 @@
-Smoothie is a lightweight jquery slider which not only support images, but also a headline, paragraph and even a clickable link with room for extarnal link too. 
-
-Smoothie is first of its kind where you can set its height to 100vh or 500px or whatever. By simple CSS change you can achive a wonderful looking slider on your beatiful looking webpage. 
-
-
- 
