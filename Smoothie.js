@@ -19,7 +19,7 @@ var Smoothie = (function(public){
 	this.public			= {
 		smoothieContainer: 		$('#smoothie'),
 		smoothieCurrent:        'currentSlide',
-		slideSpeed: 			500
+		slideSpeed: 			5000
 	};
 
 	
