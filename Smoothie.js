@@ -18,7 +18,7 @@ var Smoothie = (function(public){
 	
 	this.public			= {
 		smoothieContainer: 		$('#smoothie'),
-		smoothieCurrent:        'currentSlide',
+		smoothieCurrent:        'currentSlide container',
 		slideSpeed: 			5000
 	};
 
@@ -34,7 +34,10 @@ var Smoothie = (function(public){
 		smoothiePlaceholder: 	'smoothie____Placeholder',
 		smoothieSlide:          'smoothie____Slide',
 		smoothieSlideWrapper: 	'smoothie____Slide____wrapper',		
-		timer: 					''
+		timer: 					'',
+		currentSlideIndex: 		0,
+		smoothiePaginationLeft: 'smoothie____Pagination____Left',
+		smoothiePaginationRight: 'smoothie____Pagination____Right'
 	};	
 	
 	
@@ -211,27 +214,62 @@ var Smoothie = (function(public){
 	
 	/* ========================
 	
+		Render Render Pagination Arrows
+	
+	====================================================================================================================== */
+	
+	this.renderPaginationArrows = function(){
+		$('.' + that.vars.smoothiePlaceholder)
+		.append(
+			that.createElement({
+				elementType: 'div',
+				elementClass: that.vars.smoothiePaginationLeft
+			})
+			.append(
+				that.createElement({
+					elementType: 'span',
+					elementHTML: '<->'
+				}).on('click', function(){
+
+					clearInterval(that.vars.timer);;
+					that.changeSlide('PREVIOUS');
+					
+				})
+			)			
+		)
+		.append(
+			that.createElement({
+				elementType: 'div',
+				elementClass: that.vars.smoothiePaginationRight
+			})
+			.append(
+				that.createElement({
+					elementType: 'span',
+					elementHTML: '>'
+				}).on('click', function(){
+
+					clearInterval(that.vars.timer);					
+					that.changeSlide('NEXT');
+
+				})
+			)
+		)
+	}
+
+	
+	/* ========================
+	
 		Invoke Timer
 	
 	====================================================================================================================== */
 	
 	this.invokeTimer = function(){
 		
-		var index 		= 0;
-
-		/* Show first slide until timer is triggers next slide*/
-		
-		that.changeSlide(index);
-
 		/* Start timer */
 
-		that.vars.timer = setInterval(function(){
-				
-			if(index >= that.vars.slides.length) {
-				index = 0;
-			}
+		that.vars.timer = setInterval(function(){			
 
-			that.changeSlide(index++);	
+			that.changeSlide();	
 
 		}, that.public.slideSpeed);
 
@@ -244,21 +282,46 @@ var Smoothie = (function(public){
 	
 	====================================================================================================================== */
 	
-	this.changeSlide = function(index) {
+	this.changeSlide = function(direction = '') {
+		
+		if(direction === 'PREVIOUS'){
+
+			if(that.vars.currentSlideIndex === 1) {
+				
+				that.vars.currentSlideIndex = that.vars.slides.length - 1;				
+
+			}
+
+		}
+
+		
 
 		/* Change the placeholder's backgroung image*/
 		
 		$('.' + that.vars.smoothiePlaceholder).css({
-			backgroundImage: "url('" + that.vars.slides[index].imgSrc + "')"
+			backgroundImage: "url('" + that.vars.slides[that.vars.currentSlideIndex].imgSrc + "')"
 		})
 
 		/* Now add current class to new slide which has to be shown and remove current class from any previouly showing slide */
 
 		$('.' + that.vars.smoothieSlide)
 			.removeClass(that.public.smoothieCurrent)
-			.eq(index)
+			.eq(that.vars.currentSlideIndex)
 			.addClass(that.public.smoothieCurrent)
 
+		
+		/* Increment or set 0 index for current slide */
+
+		if(that.vars.currentSlideIndex + 1 >= that.vars.slides.length) {
+			
+			that.vars.currentSlideIndex = 0;			
+
+		} else {
+
+			that.vars.currentSlideIndex++;
+		
+		}
+		
 	}
 	
 	
@@ -306,6 +369,16 @@ var Smoothie = (function(public){
 
 		
 		/* -----------------------
+			Render Pagination Arrow		
+		--------------------------------------------------------------------------------------------------- */
+		
+		that.renderPaginationArrows();
+
+		/* Show first slide until timer triggers the next slide*/
+		
+		that.changeSlide();
+
+		/* -----------------------
 			Start the timer to invoke slide rotation
 		--------------------------------------------------------------------------------------------------- */
 		
@@ -319,5 +392,6 @@ var Smoothie = (function(public){
 
 
 var s = new Smoothie({
-	slideSpeed: 5000
+	slideSpeed: 	  2000,
+	smoothieCurrent: 'currentSlide container',
 });

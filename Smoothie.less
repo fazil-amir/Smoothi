@@ -17,7 +17,7 @@
 	Content wrapper div's max width
 --------------------------------------------------------------------------------------------------- */
 
-.currentSlide{
+.container{
 	max-width: 1200px;
 }
 
@@ -126,7 +126,56 @@
 		background-position: center center;
 		background-size: cover;
 		transition: background 1s ease-in-out 0.5s;
+		
+		.smoothie____Pagination____Left, .smoothie____Pagination____Right{
+			height: 100%;
+			width: 100px;
+			position: absolute;
+			top:0;
+			text-align: center;
 
+			span {
+				width: 50px;
+				height: 50px;
+				line-height: 46.5px;
+				display: inline-block;
+				position: absolute;
+				margin: auto;
+				background-color: white;
+				bottom: 0;
+				left: 0;
+				top: 0;
+				right: 0;
+				opacity: 0.5;
+				cursor: pointer;
+				transition: background 1s ease-in-out 0.5s;
+				font-family: monospace;
+    			border: 2px solid gray;
+    			color: gray;
+				font-size: 28px;
+
+				&:hover{
+					opacity: 1;
+				}
+			}
+		}
+
+		.smoothie____Pagination____Left{
+			height: 100%;
+			width: 100px;
+			position: absolute;
+			top:0;
+			left: 0;
+			text-align: center;
+		}
+		
+		.smoothie____Pagination____Right{
+			height: 100%;
+			width: 100px;
+			position: absolute;
+			top:0;
+			right: 0;
+		}
 		.smoothie____Slide{
 			height: inherit;
 			width: 100%;
@@ -134,7 +183,7 @@
 			left: 0;
 			right: 0;
 			top: 0;
-			padding: 0 50px;
+			padding: 0 10px;
 			box-sizing: border-box;
 			opacity: 0;
 			margin:auto;
